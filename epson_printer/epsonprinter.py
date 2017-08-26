@@ -6,6 +6,7 @@ import numpy as np
 import usb.core
 from functools import wraps
 from PIL import Image
+from .barcode import *
 
 ESC = 27
 GS = 29
@@ -328,3 +329,18 @@ class EpsonPrinter:
     @write_this
     def set_print_speed(self, speed):
         return set_print_speed(speed)
+
+    @write_this
+    def set_barcode_height(self, height=80):
+        return [
+            GS,
+            ord('h'),
+            height
+        ]
+
+    def print_barcode(self, barcode_text, barcode_type=BARCODE_CODE39):
+        if not validate_barcode(barcode_text, barcode_type):
+            raise ValueError("invalid barcode : %s" % barcode_text)
+        self.write([GS, ord('k'), barcode_type])
+        self.write(barcode_text)
+        self.write([0])
