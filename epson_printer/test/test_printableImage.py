@@ -1,17 +1,17 @@
 import unittest
-from ..epsonprinter import PrintableImage
+from epson_printer.epsonprinter import PrintableImage
 from PIL import Image
 from time import time
-
+from os.path import join, realpath, dirname
 
 class TestPrintableImage(unittest.TestCase):
 
     def test_from_image(self):
-        im = Image.open('logo.png')
+        im = Image.open(join(dirname(realpath(__file__)), '../../logo.png'))
         start = time()
         printable = PrintableImage.from_image(im)
         elapsed = time() - start
-        print elapsed
+        print(elapsed)
         height = printable.height
         data = printable.data
         self.assertEqual(height, 432)
