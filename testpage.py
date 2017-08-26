@@ -1,4 +1,4 @@
-from .epsonprinter import EpsonPrinter
+from epson_printer import EpsonPrinter
 from optparse import OptionParser
 import sys
 
