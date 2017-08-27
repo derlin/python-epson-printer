@@ -7,6 +7,7 @@ import usb.core
 from functools import wraps
 from PIL import Image
 from .barcode import *
+from .codepoint import *
 
 ESC = 27
 GS = 29
@@ -344,3 +345,19 @@ class EpsonPrinter:
         self.write([GS, ord('k'), barcode_type])
         self.write(barcode_text)
         self.write([0])
+
+    @write_this
+    def set_codepage(self, codepoint):
+
+        if isinstance(codepoint, CodePoint):
+            codepage = codepoint.codepage
+        elif isinstance(codepoint, int):
+            codepage = codepoint
+        else:
+            raise ValueError("expected an int or a CodePoint instance")
+
+        return [
+            ESC,
+            ord('t'),
+            codepage
+        ]

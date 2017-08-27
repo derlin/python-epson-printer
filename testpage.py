@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from epson_printer import EpsonPrinter
+from epson_printer import CODEPOINT_EURO
 from optparse import OptionParser
 import sys
 
@@ -40,6 +43,9 @@ if __name__ == '__main__':
         printer.linefeed()
         printer.print_image_from_file("logo.png")
         printer.linefeed()
+        printer.set_codepage(codepage=CODEPOINT_EURO)
+        printer.print_text(CODEPOINT_EURO.encode("Using àccèntös: $$ éléphant È ü"))
+        printer.linefeed
         printer.print_text("Feeding paper 10 lines before cutting")
         printer.linefeed(10)
         printer.cut()
